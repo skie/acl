@@ -79,10 +79,10 @@ class IniAcl implements AclInterface
      *
      * @param string $aro ARO The requesting object identifier.
      * @param string $aco ACO The controlled object identifier.
-     * @param string $action Action (defaults to *)
+     * @param string|array $actions Action (defaults to *)
      * @return void
      */
-    public function allow($aro, $aco, $action = "*")
+    public function allow(string $aro, string $aco, $action = "*"): bool
     {
     }
 
@@ -94,7 +94,7 @@ class IniAcl implements AclInterface
      * @param string $action Action (defaults to *)
      * @return void
      */
-    public function deny($aro, $aco, $action = "*")
+    public function deny(string $aro, string $aco, string $action = "*"): bool
     {
     }
 
@@ -106,7 +106,7 @@ class IniAcl implements AclInterface
      * @param string $action Action (defaults to *)
      * @return void
      */
-    public function inherit($aro, $aco, $action = "*")
+    public function inherit(string $aro, string $aco, string $action = "*"): bool
     {
     }
 
@@ -120,7 +120,7 @@ class IniAcl implements AclInterface
      * @param string $action Action
      * @return bool Success
      */
-    public function check($aro, $aco, $action = null)
+    public function check($aro, ?string $aco, string $action = null): bool
     {
         $aclConfig = $this->options;
 

@@ -136,12 +136,12 @@ class PhpAcl implements AclInterface
      *
      * @param string $aro ARO The requesting object identifier.
      * @param string $aco ACO The controlled object identifier.
-     * @param string $action Action (defaults to *)
+     * @param string|array $action Action (defaults to *)
      * @return bool Success
      */
-    public function allow($aro, $aco, $action = "*")
+    public function allow(string $aro, string $aco, $action = "*"): bool
     {
-        return $this->Aco->access($this->Aro->resolve($aro), $aco, $action, 'allow');
+        return (bool)$this->Aco->access($this->Aro->resolve($aro), $aco, $action, 'allow');
     }
 
     /**
@@ -152,9 +152,9 @@ class PhpAcl implements AclInterface
      * @param string $action Action (defaults to *)
      * @return bool Success
      */
-    public function deny($aro, $aco, $action = "*")
+    public function deny(string $aro, string $aco, string $action = "*"): bool
     {
-        return $this->Aco->access($this->Aro->resolve($aro), $aco, $action, 'deny');
+        return (bool)$this->Aco->access($this->Aro->resolve($aro), $aco, $action, 'deny');
     }
 
     /**
@@ -165,7 +165,7 @@ class PhpAcl implements AclInterface
      * @param string $action Action (defaults to *)
      * @return bool Success
      */
-    public function inherit($aro, $aco, $action = "*")
+    public function inherit(string $aro, string $aco, string $action = "*"): bool
     {
         return false;
     }
@@ -179,7 +179,7 @@ class PhpAcl implements AclInterface
      * @param string $action Action
      * @return bool true if access is granted, false otherwise
      */
-    public function check($aro, $aco, $action = "*")
+    public function check($aro, ?string $aco, string $action = "*"): bool
     {
         $allow = $this->options['policy'];
         $prioritizedAros = $this->Aro->roles($aro);

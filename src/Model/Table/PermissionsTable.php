@@ -230,8 +230,8 @@ class PermissionsTable extends AclNodesTable
         if (empty($obj['Aro']) || empty($obj['Aco'])) {
             return false;
         }
-        $aro = $obj['Aro']->extract('id')->toArray();
-        $aco = $obj['Aco']->extract('id')->toArray();
+        $aro = $obj['Aro']->all()->extract('id')->toArray();
+        $aco = $obj['Aco']->all()->extract('id')->toArray();
         $aro = current($aro);
         $aco = current($aco);
         $alias = $this->getAlias();
@@ -240,12 +240,10 @@ class PermissionsTable extends AclNodesTable
             'aro' => $aro,
             'aco' => $aco,
             'link' => [
-                $alias => $this->find('all', [
-                    'conditions' => [
-                        $alias . '.aro_id' => $aro,
-                        $alias . '.aco_id' => $aco,
-                    ],
-                ])->enableHydration(false)->toArray(),
+                $alias => $this->find()->where([
+                    $alias . '.aro_id' => $aro,
+                    $alias . '.aco_id' => $aco,
+                ])->enableHydration(false)->all()->toArray(),
             ],
         ];
 

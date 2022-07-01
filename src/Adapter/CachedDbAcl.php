@@ -50,7 +50,7 @@ class CachedDbAcl extends DbAcl implements AclInterface
     /**
      * {{@inheritDoc}}
      */
-    public function check($aro, $aco, $action = "*")
+    public function check($aro, ?string $aco, string $action = "*"): bool
     {
         $key = $this->_getCacheKey($aro, $aco, $action);
 
@@ -64,7 +64,7 @@ class CachedDbAcl extends DbAcl implements AclInterface
     /**
      * {{@inheritDoc}}
      */
-    public function allow($aro, $aco, $actions = "*", $value = 1)
+    public function allow(string $aro, string $aco, $actions = "*", int $value = 1): bool
     {
         Cache::clear($this->_cacheConfig);
 
@@ -79,7 +79,7 @@ class CachedDbAcl extends DbAcl implements AclInterface
      * @param string $action Action
      * @return string
      */
-    protected function _getCacheKey($aro, $aco, $action = '*')
+    protected function _getCacheKey($aro, $aco, string $action = "*"): string
     {
         return strtolower($this->_getNodeCacheKey($aro) . '_' . $this->_getNodeCacheKey($aco) . ($action == '*' ? '' : '_' . $action));
     }
@@ -90,7 +90,7 @@ class CachedDbAcl extends DbAcl implements AclInterface
      * @param string|array|Entity $ref Array with 'model' and 'foreign_key', model object, or string value
      * @return string
      */
-    protected function _getNodeCacheKey($ref)
+    protected function _getNodeCacheKey($ref): string
     {
         if (empty($ref)) {
             return '';
